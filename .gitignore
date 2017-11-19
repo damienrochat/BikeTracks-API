@@ -1,0 +1,11 @@
+## python
+__pycache__
+*.pyc
+
+## jetbrains
+.idea
+
+## django
+**/migrations/0*.py
+*.sqlite3
+local_settings.py
