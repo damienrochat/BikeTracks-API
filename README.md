@@ -13,3 +13,29 @@ docker run --name biketracks-db -p 5432:5432 -e POSTGRES_PASSWORD=hodor -d mdill
 Then, install pip requirements and set local settings by creating ```biketracks/local_settings.py``` file.
 
 During development, Django can be run with ```python manage.py runserver```.
+
+## API
+
+#### Routes around coordinates
+
+###### Arguments
+
+| Argument | Optional |
+| -------- | -------- |
+| lat      | ✘        |
+| lng      | ✘        |
+| radius   | ✔        |
+
+###### Example
+
+```http
+GET /api/v1/routes/?lat=46.7833&lng=6.65&radius=1000
+```
+
+```http
+HTTP 200 OK
+Content-Type: application/json
+
+[]
+```
+

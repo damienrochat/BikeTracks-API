@@ -4,7 +4,7 @@ DEBUG = False
 ALLOWED_HOSTS = []
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = ')filvsv1%c6+w_2slw#yso3e#$9opwms*a=yx0*a!y+0d#xad^'
+SECRET_KEY = 'NOT_A_SECRET'
 
 
 # Database
@@ -12,7 +12,7 @@ SECRET_KEY = ')filvsv1%c6+w_2slw#yso3e#$9opwms*a=yx0*a!y+0d#xad^'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'hodor',
