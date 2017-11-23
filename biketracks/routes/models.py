@@ -16,8 +16,9 @@ class RouteQuerySet(GeoQuerySet):
 
 
 class Route(models.Model):
-    name = models.CharField(max_length=60)
-    route = models.LineStringField(geography=True, dim=3)
+    name = models.CharField(max_length=100)
+    type = models.CharField(max_length=100)
+    route = models.LineStringField(dim=3, srid=4326)
 
     objects = RouteQuerySet.as_manager()
 
