@@ -36,6 +36,27 @@ GET /api/v1/routes/?lat=46.7833&lng=6.65&radius=1000
 HTTP 200 OK
 Content-Type: application/json
 
-[]
+[
+  {
+    "id": 5,
+    "route": [
+      {
+        "lng": 6.74366133,
+        "lat": 46.78888733,
+        "elev": 449.0
+      },
+      {
+        "lng": 6.74366133,
+        "lat": 46.78888733,
+        "elev": 449.0
+      }
+    ],
+    "name": "Vallons des Vaux",
+    "type": "Xcountry",
+    "distance": 8715,
+    "climb": 654,
+    "descent": -660
+  }
+]
 ```
 
