@@ -1,11 +1,9 @@
-from itertools import islice
-
 import gpxpy
-from django.contrib.gis.gdal import CoordTransform, SpatialReference
 from django.contrib.gis.geos import Point, LineString
 from django.core.management import BaseCommand
 
-from biketracks.tracks.models import Track
+from biketracks.tracks.models import Track, TrackPoint
+from biketracks.tracks.elevation import compute_elevation
 
 
 class Command(BaseCommand):
@@ -15,38 +13,47 @@ class Command(BaseCommand):
         parser.add_argument('files', nargs='+', type=str)
 
     def handle(self, *args, **options):
-        ct = CoordTransform(SpatialReference(4326), SpatialReference(3035))  # transform wgs84 to european grid
-
         for filename in options['files']:
             gpx = gpxpy.parse(open(filename))
 
             for track in gpx.tracks:
                 for segment in track.segments:
 
-                    track_points = [
-                        Point(x=pt.longitude, y=pt.latitude, z=pt.elevation)
-                        for pt in islice(segment.points, 0, None, 1)
-                    ]
-                    track = LineString(track_points, srid=4326)
+                    # create geometric linestring (european projection ETRS89)
+                    linestring = LineString([
+                            Point(x=pt.longitude, y=pt.latitude, srid=4326)
+                            for pt in segment.points
+                        ], srid=4326)
+                    linestring.transform(3035)
 
-                    climb = 0
-                    descent = 0
-                    elevation_points = list(islice(track_points, 0, None, 60))
-                    if len(track_points) % 60 != 0:
-                       elevation_points.append(track_points[-1])
+                    # compute negative and negative elevation
+                    elev_pos, elev_neg = compute_elevation([
+                        dict(
+                            lng=pt.longitude,
+                            lat=pt.latitude,
+                            elev=pt.elevation,
+                            time=pt.time,
+                        )
+                        for pt in segment.points
+                    ])
 
-                    for i in range(1, len(elevation_points)):
-                        delta = elevation_points[i].z - elevation_points[i-1].z
-                        if delta > 0:
-                            climb = climb + delta
-                        elif delta < 0:
-                            descent = descent + delta
-
-                    Track.objects.create(
+                    # create track
+                    track = Track.objects.create(
                         name=track.name,
                         type=track.type,
-                        track=track,
-                        distance=track.transform(ct, clone=True).length,  # distance based on ETRS89 grid
-                        climb=climb,
-                        descent=descent,
+                        track=linestring,
+                        distance=linestring.length,
+                        climb=elev_pos,
+                        descent=elev_neg,
                     )
+
+                    # create each track points
+                    TrackPoint.objects.bulk_create([
+                        TrackPoint(
+                            track=track,
+                            order=i+1,
+                            point=Point(x=pt.longitude, y=pt.latitude, srid=4326),
+                            elev=pt.elevation
+                        )
+                        for i, pt in enumerate(segment.points)
+                    ])
