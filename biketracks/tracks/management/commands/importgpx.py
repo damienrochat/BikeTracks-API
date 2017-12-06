@@ -1,9 +1,11 @@
+from itertools import islice
+
 import gpxpy
 from django.contrib.gis.gdal import CoordTransform, SpatialReference
 from django.contrib.gis.geos import Point, LineString
 from django.core.management import BaseCommand
 
-from routes.models import Route
+from tracks.models import Track
 
 
 class Command(BaseCommand):
@@ -20,26 +22,31 @@ class Command(BaseCommand):
 
             for track in gpx.tracks:
                 for segment in track.segments:
+
+                    track_points = [
+                        Point(x=pt.longitude, y=pt.latitude, z=pt.elevation)
+                        for pt in islice(segment.points, 0, None, 1)
+                    ]
+                    track = LineString(track_points, srid=4326)
+
                     climb = 0
                     descent = 0
+                    elevation_points = list(islice(track_points, 0, None, 60))
+                    if len(track_points) % 60 != 0:
+                       elevation_points.append(track_points[-1])
 
-                    for i in range(1, len(segment.points)):
-                        delta = segment.points[i].elevation - segment.points[i-1].elevation
+                    for i in range(1, len(elevation_points)):
+                        delta = elevation_points[i].z - elevation_points[i-1].z
                         if delta > 0:
                             climb = climb + delta
                         elif delta < 0:
                             descent = descent + delta
 
-                    route = LineString([
-                        Point(x=point.longitude, y=point.latitude, z=point.elevation)
-                        for point in segment.points
-                    ], srid=4326)
-
-                    Route.objects.create(
+                    Track.objects.create(
                         name=track.name,
                         type=track.type,
-                        route=route,
-                        distance=route.transform(ct, clone=True).length,  # distance based on ETRS89 grid
+                        track=track,
+                        distance=track.transform(ct, clone=True).length,  # distance based on ETRS89 grid
                         climb=climb,
                         descent=descent,
                     )

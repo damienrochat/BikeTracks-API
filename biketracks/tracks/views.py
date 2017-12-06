@@ -2,8 +2,8 @@ from django.contrib.gis.geos import Point
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView
 
-from routes.models import Route
-from routes.serializers import RouteSerializer
+from tracks.models import Track
+from tracks.serializers import TrackSerializer
 
 
 def safe_cast(to_type):
@@ -15,20 +15,20 @@ def safe_cast(to_type):
     return _safe_cast
 
 
-class RoutesView(ListAPIView):
-    serializer_class = RouteSerializer
+class TracksView(ListAPIView):
+    serializer_class = TrackSerializer
 
     # TODO: add 'limit' support
     def get_queryset(self):
         """
-        Provide a custom queryset in order to list the nearest routes.
+        Provide a custom queryset in order to list the nearest tracks.
 
         Filter by a lat/lng location and a radius (km, default 5).
-        Almost one part of the route need to be in the area to be listed.
+        Almost one part of the track need to be in the area to be listed.
         Check that the request contains "lat", "lng" query string parameters,
         raise a validation error otherwise.
 
-        The list is ordered from the nearest to farthest routes.
+        The list is ordered from the nearest to farthest tracks.
         """
         to_float = safe_cast(float)
         to_int = safe_cast(int)
@@ -41,4 +41,4 @@ class RoutesView(ListAPIView):
         point = Point(lng, lat)
         radius = to_int(self.request.query_params.get('radius', 5000))
 
-        return Route.objects.in_radius(point, radius).all()
+        return Track.objects.in_radius(point, radius).all()

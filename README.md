@@ -16,7 +16,7 @@ During development, Django can be run with ```python manage.py runserver```.
 
 ## API
 
-#### Routes around coordinates
+#### Tracks around coordinates
 
 ###### Arguments
 
@@ -29,7 +29,7 @@ During development, Django can be run with ```python manage.py runserver```.
 ###### Example
 
 ```http
-GET /api/v1/routes/?lat=46.7833&lng=6.65&radius=1000
+GET /api/v1/tracks/?lat=46.7833&lng=6.65&radius=1000
 ```
 
 ```http
@@ -39,7 +39,7 @@ Content-Type: application/json
 [
   {
     "id": 5,
-    "route": [
+    "track": [
       {
         "lng": 6.74366133,
         "lat": 46.78888733,
