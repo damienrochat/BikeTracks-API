@@ -5,7 +5,7 @@ from django.contrib.gis.gdal import CoordTransform, SpatialReference
 from django.contrib.gis.geos import Point, LineString
 from django.core.management import BaseCommand
 
-from tracks.models import Track
+from biketracks.tracks.models import Track
 
 
 class Command(BaseCommand):

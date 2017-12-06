@@ -2,8 +2,8 @@ from django.contrib.gis.geos import Point
 from rest_framework.exceptions import ValidationError
 from rest_framework.generics import ListAPIView
 
-from tracks.models import Track
-from tracks.serializers import TrackSerializer
+from biketracks.tracks.models import Track
+from biketracks.tracks.serializers import TrackSerializer
 
 
 def safe_cast(to_type):

@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns_apiv1 = [
-    url(r'^tracks/', include('tracks.urls')),
+    url(r'^tracks/', include('biketracks.tracks.urls')),
 ]
 
 urlpatterns = [

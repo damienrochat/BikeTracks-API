@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer, Serializer
 
-from tracks.models import Track
+from biketracks.tracks.models import Track
 
 
 class TrackPointSerializer(Serializer):

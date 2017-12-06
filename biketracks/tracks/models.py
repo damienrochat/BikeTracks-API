@@ -1,14 +1,14 @@
 from django.contrib.gis.db import models
-from django.contrib.gis.db.models.query import GeoQuerySet
 from django.contrib.gis.measure import D
+from django.db.models import QuerySet
 
 
-class TrackQuerySet(GeoQuerySet):
+class TrackQuerySet(QuerySet):
 
     def in_radius(self, point, radius):
         """
         QuerySet of all tracks in the area,
-        defined by the geo point and the radius (in meters).
+        defined by a geo point and a radius (in meters).
         """
         return self.filter(track__distance_lte=(point, D(m=radius)))
 
@@ -34,8 +34,6 @@ class TrackPoint(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     point = models.PointField(geography=True, srid=4326)
     elev = models.FloatField()
-
-    objects = GeoQuerySet.as_manager()
 
     class Meta:
         db_table = 'track_points'

@@ -3,7 +3,7 @@ from django.contrib.gis.admin import OSMGeoAdmin
 from django.contrib.gis.forms import LineStringField, OSMWidget
 from django.forms import ModelForm
 
-from tracks.models import Track
+from biketracks.tracks.models import Track
 
 
 class TrackForm(ModelForm):
