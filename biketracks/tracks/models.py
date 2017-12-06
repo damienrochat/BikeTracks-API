@@ -32,6 +32,7 @@ class Track(models.Model):
 
 class TrackPoint(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
+    order = models.IntegerField()
     point = models.PointField(geography=True, srid=4326)
     elev = models.FloatField()
 
