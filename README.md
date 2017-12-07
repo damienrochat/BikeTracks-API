@@ -39,7 +39,7 @@ Content-Type: application/json
 [
   {
     "id": 5,
-    "track": [
+    "points": [
       {
         "lng": 6.74366133,
         "lat": 46.78888733,
