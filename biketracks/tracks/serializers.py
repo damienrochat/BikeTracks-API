@@ -5,13 +5,13 @@ from biketracks.tracks.models import Track, TrackPoint
 
 
 class TrackPointSerializer(ModelSerializer):
-    lng = SerializerMethodField()
     lat = SerializerMethodField()
-
-    def get_lng(self, obj):
-        return obj.point.y
+    lng = SerializerMethodField()
 
     def get_lat(self, obj):
+        return obj.point.y
+
+    def get_lng(self, obj):
         return obj.point.x
 
     class Meta:
