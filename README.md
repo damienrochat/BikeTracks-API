@@ -14,6 +14,19 @@ Then, install pip requirements and set local settings by creating ```biketracks/
 
 During development, Django can be run with ```python manage.py runserver```.
 
+## Import GPX files
+
+```shell
+$ python manage.py importgpx /path/to/gpx/*.gpx
+```
+
+Elevation computation could be affected by GPS noise.
+In order to minimize it, use the optional parameter to reduce the number of points to use for it.
+
+```shell
+$ python manage.py importgpx /path/to/gpx/*.gpx --interval=60
+```
+
 ## API
 
 #### Tracks around coordinates
@@ -55,7 +68,8 @@ Content-Type: application/json
     "type": "Xcountry",
     "distance": 8715,
     "climb": 654,
-    "descent": -660
+    "descent": -660,
+    "precision": 0.3
   }
 ]
 ```

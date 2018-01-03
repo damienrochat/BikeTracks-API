@@ -1,7 +1,7 @@
 from itertools import islice
 
 
-def compute_elevation(points, interval=60):
+def compute_elevation(points, interval=1):
     climb = 0
     descent = 0
 
