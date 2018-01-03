@@ -24,4 +24,4 @@ class TrackSerializer(ModelSerializer):
 
     class Meta:
         model = Track
-        exclude = ('track',)
+        exclude = ('track', 'centroid')

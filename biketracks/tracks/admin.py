@@ -11,7 +11,7 @@ class TrackForm(ModelForm):
 
     class Meta:
         model = Track
-        fields = '__all__'
+        exclude = ('centroid',)
 
 
 @admin.register(Track)
