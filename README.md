@@ -68,7 +68,7 @@ Content-Type: application/json
     "type": "Xcountry",
     "distance": 8715,
     "climb": 654,
-    "descent": -660,
+    "descent": 660,
     "precision": 0.3
   }
 ]
