@@ -51,7 +51,7 @@ class Command(BaseCommand):
                     TrackPoint.objects.bulk_create([
                         TrackPoint(
                             track=track,
-                            order=i+1,
+                            pid=i,
                             point=Point(x=pt.longitude, y=pt.latitude, srid=4326),
                             elev=pt.elevation
                         )

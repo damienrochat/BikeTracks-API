@@ -1,6 +1,6 @@
 from django.contrib.gis.db import models
 from django.contrib.gis.measure import D
-from django.db.models import QuerySet
+from django.db.models import QuerySet, F, Count
 
 
 class TrackQuerySet(QuerySet):
@@ -42,10 +42,10 @@ class Track(models.Model):
 
 class TrackPoint(models.Model):
     track = models.ForeignKey(Track, related_name='points', on_delete=models.CASCADE)
-    order = models.IntegerField()
+    pid = models.IntegerField()
     point = models.PointField(geography=True, srid=4326)
     elev = models.FloatField()
 
     class Meta:
         db_table = 'track_points'
-        ordering = ['order']
+        ordering = ['pid']
