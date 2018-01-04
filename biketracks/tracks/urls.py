@@ -1,7 +1,8 @@
-from django.conf.urls import url
+from django.urls import path
 
-from biketracks.tracks.views import TracksView
+from biketracks.tracks.views import TracksView, TrackView
 
 urlpatterns = [
-    url(r'^$', TracksView.as_view(), name='tracks'),
+    path('', TracksView.as_view(), name='tracks'),
+    path('<int:pk>/', TrackView.as_view(), name='track'),
 ]

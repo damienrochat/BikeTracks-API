@@ -2,10 +2,10 @@ import math
 from django.contrib.gis.geos import Point
 from django.db.models import Prefetch, F
 from rest_framework.exceptions import ValidationError
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 
 from biketracks.tracks.models import Track, TrackPoint
-from biketracks.tracks.serializers import TrackSerializer
+from biketracks.tracks.serializers import TrackSerializer, TrackDetailSerializer
 
 
 def safe_cast(to_type):
@@ -69,3 +69,8 @@ class TracksView(ListAPIView):
             'points_precision': self._get_points_precision()
         })
         return context
+
+
+class TrackView(RetrieveAPIView):
+    serializer_class = TrackDetailSerializer
+    queryset = Track.objects.all()

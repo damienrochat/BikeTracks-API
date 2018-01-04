@@ -51,25 +51,61 @@ Content-Type: application/json
 
 [
   {
-    "id": 5,
+    "id": 42,
     "points": [
       {
-        "lat": 46.78888733,
-        "lng": 6.74366133,
-        "elev": 449.0
+        "lng": 6.75655267,
+        "lat": 46.77559117,
+        "elev": 584.0
       },
       {
-        "lat": 46.78888733,
-        "lng": 6.74366133,
-        "elev": 449.0
+        "lng": 6.75652383,
+        "lat": 46.77561933,
+        "elev": 582.0
+      }
+    ],
+    "precision": 0.4,
+    "name": "Vallons des Vaux",
+    "type": "Xcountry",
+    "distance": 8715,
+    "climb": 654,
+    "descent": 660
+  }
+]
+```
+
+#### Track details
+
+###### Example
+
+```http
+GET /api/v1/tracks/42
+```
+
+```http
+HTTP 200 OK
+Content-Type: application/json
+
+[
+  {
+    "id": 42,
+    "points": [
+      {
+        "lng": 6.75655267,
+        "lat": 46.77559117,
+        "elev": 584.0
+      },
+      {
+        "lng": 6.75652383,
+        "lat": 46.77561933,
+        "elev": 582.0
       }
     ],
     "name": "Vallons des Vaux",
     "type": "Xcountry",
     "distance": 8715,
     "climb": 654,
-    "descent": -660,
-    "precision": 0.3
+    "descent": 660
   }
 ]
 ```

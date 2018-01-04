@@ -19,13 +19,16 @@ class TrackPointSerializer(ModelSerializer):
         fields = ('lng', 'lat', 'elev')
 
 
-class TrackSerializer(ModelSerializer):
+class TrackDetailSerializer(ModelSerializer):
     points = TrackPointSerializer(many=True)
-    precision = SerializerMethodField()
-
-    def get_precision(self, obj):
-        return self.context.get('points_precision')
 
     class Meta:
         model = Track
         exclude = ('track', 'centroid')
+
+
+class TrackSerializer(TrackDetailSerializer):
+    precision = SerializerMethodField()
+
+    def get_precision(self, obj):
+        return self.context.get('points_precision')
