@@ -2,7 +2,7 @@
 
 ## Before starting
 
-This project use GeoDjango, you need a spacial database installer before starting (tested with PostgreSQL + PostGIS).
+This project use GeoDjango, you need a spacial database installed before starting (tested with PostgreSQL 10.1 + PostGIS 2.4.2).
 
 You can easily create a Docker container with the following command :
 
@@ -16,8 +16,29 @@ During development, Django can be run with ```python manage.py runserver```.
 
 ## Import GPX files
 
+You can simply add data to the database by importing .gpx files. Use the following command.
+
 ```shell
 $ python manage.py importgpx /path/to/gpx/*.gpx
+```
+
+The command will extract latitude, longitude and elevation of the track points. You can optionally define the kind of track and its name.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx xmlns="http://www.topografix.com/GPX/1/1" version="1.1" creator="Creator_name">
+  <trk>
+    <name>Name_of_the_track</name>
+    <type>Downhill|Freeride|Enduro|Xcountry</type>
+    <trkseg>
+      <trkpt lat="46.78888733" lon="6.74366133">
+        <ele>449.0</ele>
+        <time>2017-09-22T10:11:35.000Z</time>
+      </trkpt>
+      ...
+    </trkseg>
+  </trk>
+</gpx>
 ```
 
 Elevation computation could be affected by GPS noise.
